@@ -7,7 +7,7 @@ jobs:
   build:
     environment:
       DRA_BUILD_DIR: dist
-      DRA_BUCKET_NAME: t7-corey-test
+      DRA_BUCKET_NAME: dra-web-vue
     working_directory: ~/repo
     docker:
       - image: circleci/node:8.9.1
