@@ -6,11 +6,11 @@ version: 2
 jobs:
   build:
     environment:
-      DRA_BUILD_DIR: dist
-      DRA_BUCKET_NAME: dra-web-vue
-    working_directory: ~/repo
+      DRA_BUILD_DIR: out
+      DRA_BUCKET_NAME: t7-labs
     docker:
       - image: circleci/node:8.9.1
+    working_directory: ~/repo
     steps:
       - checkout
 
@@ -36,7 +36,7 @@ jobs:
           name: Run Tests
           command: npm test
 
-      # Build assets!
+      # Export Next.js assets!
       - run: 
           name: Build Assets
           command: npm run build
@@ -45,11 +45,11 @@ jobs:
       - run: 
           name: Deploy to S3
           command: |
-            sudo apt-get update && sudo apt-get install -y python-dev
-            sudo curl -O https://bootstrap.pypa.io/get-pip.py
-            sudo python get-pip.py
-            sudo pip install awscli --upgrade
-            aws --version
-            if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              aws s3 sync $DRA_BUILD_DIR s3://$DRA_BUCKET_NAME --delete
+            if [ "${CIRCLE_BRANCH}" = "dev" ]; then
+              sudo apt-get update && sudo apt-get install -y python-dev
+              sudo curl -O https://bootstrap.pypa.io/get-pip.py
+              sudo python get-pip.py
+              sudo pip install awscli --upgrade
+              aws --version
+              aws s3 sync $DRA_BUILD_DIR s3://$DRA_BUCKET_NAME --delete --acl public-read
             fi
