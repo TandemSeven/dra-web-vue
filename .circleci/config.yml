@@ -6,8 +6,8 @@ version: 2
 jobs:
   build:
     environment:
-      DRA_BUILD_DIR: out
-      DRA_BUCKET_NAME: t7-labs
+      DRA_BUILD_DIR: dist
+      DRA_BUCKET_NAME: dra-web-vue
     docker:
       - image: circleci/node:8.9.1
     working_directory: ~/repo
